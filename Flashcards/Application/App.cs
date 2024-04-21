@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Flashcards.Database;
 
 namespace Flashcards.Application;
 
 internal class App
 {
-    public App() { }
+    private DatabaseContext _databaseContext;
+    private bool _running;
+    public App() 
+    {
+        _running = true;
+
+        _databaseContext = new DatabaseContext();
+    }
     public void Run()
     {
+        _databaseContext.GetConnection();
         Console.WriteLine("Hello, World!");
     }
 
