@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="App1.config" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="DAO\" />
     <Folder Include="DTO\" />
     <Folder Include="Enums\" />
