@@ -1,5 +1,4 @@
 ﻿using Flashcards.Services;
-using System.Configuration;
 using System.Data.SqlClient;
 
 namespace Flashcards.Database;
@@ -11,12 +10,8 @@ public class DatabaseContext
 
     public DatabaseContext()
     {
-        _masterConnectionString =
-            ConfigurationManager.
-            ConnectionStrings["dbMasterConnectionString"].ConnectionString;
-        _flashcardsConnectionString =
-            ConfigurationManager.
-            ConnectionStrings["dbFlashcardsConnectionString"].ConnectionString;
+        _masterConnectionString = ConfigSettings.dbMasterConnectionString;
+        _flashcardsConnectionString = ConfigSettings.dbFlashcardsConnectionString;
     }
 
     public SqlConnection GetConnectionToMaster()
