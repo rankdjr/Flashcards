@@ -1,9 +1,0 @@
-CREATE TABLE [FLASHCARDS].[dbo].[tb_Stacks] (
-    StackID INT PRIMARY KEY IDENTITY(1,1),
-	StackName VARCHAR(255) UNIQUE NOT NULL
-);
-
-
-
-
-

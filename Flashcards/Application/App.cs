@@ -1,23 +1,27 @@
 ﻿using Flashcards.Database;
+using Flashcards.Services;
 
 namespace Flashcards.Application;
 
 internal class App
 {
     private DatabaseContext _databaseContext;
-    private DatabaseInitializer _databaseInitializer;
+    private AppConfigurationHandler _appConfigurationHandler;
+    private InputHandler _inputHandler;
     private bool _running;
 
     public App() 
     {
         _running = true;
 
-        // Setup Database
+        // Configure Application
+        _inputHandler = new InputHandler();
         _databaseContext = new DatabaseContext();
-        _databaseInitializer = new DatabaseInitializer(_databaseContext);
-        _databaseInitializer.InitializeDatabase();
+        _appConfigurationHandler = new AppConfigurationHandler(_databaseContext, _inputHandler);
+        _appConfigurationHandler.ConfigureApplication();
 
         // Setup Services
+
     }
     public void Run()
     {
