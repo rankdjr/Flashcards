@@ -18,6 +18,7 @@ public class DatabaseContext
             ConfigurationManager.
             ConnectionStrings["dbFlashcardsConnectionString"].ConnectionString;
     }
+
     public SqlConnection GetConnectionToMaster()
     {
         var connection = new SqlConnection(_masterConnectionString);

@@ -5,20 +5,6 @@ namespace Flashcards.Services;
 
 internal class Utilities
 {
-    public static string ReadFullFile(string path)
-    {
-        try
-        {
-            string fileContent = File.ReadAllText(path);
-            return fileContent;
-        }
-        catch (Exception e)
-        {
-            DisplayExceptionErrorMessage("Error reading file.", e.Message);
-            throw;
-        }
-    }
-
     public static void PrintNewLines(int numOfNewLines)
     {
         for (int i = 0; i < numOfNewLines; i++) { Console.WriteLine(); }

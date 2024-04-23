@@ -1,19 +1,16 @@
 ﻿using System.Data.SqlClient;
 using Flashcards.Services;
 using Dapper;
-using System.Configuration;
 
 namespace Flashcards.Database;
 
 public class DatabaseInitializer
 {
     private readonly DatabaseContext _dbContext;
-    private readonly string _sqlCreateScriptFilePath;
 
     public DatabaseInitializer(DatabaseContext dbContext)
     {
         _dbContext = dbContext;
-        _sqlCreateScriptFilePath = ConfigurationManager.AppSettings["CreateScriptFpath"]!;
     }
 
     public void InitializeDatabase()

@@ -1,19 +1,16 @@
 ﻿using System.Data.SqlClient;
 using Flashcards.Services;
 using Dapper;
-using System.Configuration;
 
 namespace Flashcards.Database;
 
 public class DatabaseUtility
 {
     private readonly DatabaseContext _dbContext;
-    private readonly string _sqlValidateScriptFilePath;
 
     public DatabaseUtility(DatabaseContext dbContext)
     {
         _dbContext = dbContext;
-        _sqlValidateScriptFilePath = ConfigurationManager.AppSettings["ValidateScriptFpath"]!;
     }
 
     public bool ValidateDatabaseSchema()
