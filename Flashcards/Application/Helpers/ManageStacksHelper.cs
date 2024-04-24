@@ -32,6 +32,7 @@ public class ManageStacksHelper
 
     public void DisplayStacks(IEnumerable<StackDto>? stacks)
     {
+        // TODO: This code is repeated, consider refactoring See AppManageFlashCards.cs Line 88
         if (stacks == null)
         {
             AnsiConsole.MarkupLine("[bold]No stacks found.[/]");
@@ -62,10 +63,12 @@ public class ManageStacksHelper
                 EditStackName(stack);
                 break;
             case EditStackMenuOption.AddFlashCard:
+                // TODO: Implement add flash card
                 //AppNewLogManager _appNewLogManager = new AppNewLogManager(_codingSessionDAO, _inputHandler);
                 //_appNewLogManager.Run();
                 break;
             case EditStackMenuOption.DeleteFlashCard:
+                // TODO: Implement delete flash card
                 //AppSessionManager _appSessionManager = new AppSessionManager(_codingSessionDAO, _inputHandler);
                 //_appSessionManager.Run();
                 break;

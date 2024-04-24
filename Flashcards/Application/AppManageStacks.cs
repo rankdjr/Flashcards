@@ -53,10 +53,12 @@ public class AppManageStacks
                 HandleEditStackSelection();
                 break;
             case StackMenuOption.DeleteStack:
+                // TODO: Implement delete stack
                 //AppSessionManager _appSessionManager = new AppSessionManager(_codingSessionDAO, _inputHandler);
                 //_appSessionManager.Run();
                 break;
             case StackMenuOption.CreateStack:
+                // TODO: Implement create stack
                 //AppGoalManager _appGoalManager = new AppGoalManager(_codingGoalDAO, _inputHandler);
                 //_appGoalManager.Run();
                 break;
@@ -83,6 +85,7 @@ public class AppManageStacks
         AnsiConsole.Clear();
         IEnumerable<StackDto>? stacks = _manageStacksHelper.GetAllStacks();
 
+        // TODO: This code is repeated, consider refactoring See ManageStacksHelper.cs Line 35
         if (stacks == null)
         {
             Utilities.DisplayInformationConsoleMessage("No stacks found.");
