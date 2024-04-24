@@ -46,4 +46,20 @@ public class StackDao
             throw;
         }
     }
+
+    public void DeleteStack(StackDto stack)
+    {
+        try
+        {
+            using (var dbConnection = _dbContext.GetConnectionToFlashCards())
+            {
+                string sql = $"DELETE FROM {ConfigSettings.tbStackName} WHERE StackID = @StackId";
+                dbConnection.Execute(sql, new { StackId = stack.StackID });
+            }
+        }
+        catch
+        {
+            throw;
+        }
+    }
 }
