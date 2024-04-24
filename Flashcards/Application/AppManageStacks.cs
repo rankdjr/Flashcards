@@ -11,6 +11,7 @@ namespace Flashcards.Application;
 public class AppManageStacks
 {
     private readonly StackDao _stackDao;
+    private readonly FlashCardDao _flashCardDao;
     private readonly InputHandler _inputHandler;
     private readonly ManageStacksHelper _manageStacksHelper;
     private readonly string _pageHeader = "Manage Stacks";
@@ -21,7 +22,8 @@ public class AppManageStacks
     {
         _inputHandler = inputHandler;
         _stackDao = new StackDao(databaseContext);
-        _manageStacksHelper = new ManageStacksHelper(_stackDao, _inputHandler);
+        _flashCardDao = new FlashCardDao(databaseContext);
+        _manageStacksHelper = new ManageStacksHelper(_stackDao, _flashCardDao, _inputHandler);
 
         _running = true;
     }
@@ -85,11 +87,9 @@ public class AppManageStacks
         AnsiConsole.Clear();
         IEnumerable<StackDto>? stacks = _manageStacksHelper.GetAllStacks();
 
-        // TODO: This code is repeated, consider refactoring See ManageStacksHelper.cs Line 35
         if (stacks == null)
         {
-            Utilities.DisplayInformationConsoleMessage("No stacks found.");
-            _inputHandler.PauseForContinueInput();
+           _manageStacksHelper.HandleNoStacksFound();
             return;
         }
 
