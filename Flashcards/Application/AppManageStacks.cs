@@ -4,6 +4,7 @@ using Flashcards.Services;
 using Flashcards.Database;
 using Spectre.Console;
 using Flashcards.DTO;
+using Flashcards.Application.Helpers;
 
 namespace Flashcards.Application;
 
@@ -11,6 +12,7 @@ public class AppManageStacks
 {
     private readonly StackDao _stackDao;
     private readonly InputHandler _inputHandler;
+    private readonly ManageStacksHelper _manageStacksHelper;
     private readonly string _pageHeader = "Manage Stacks";
     private bool _running;
 
@@ -19,6 +21,8 @@ public class AppManageStacks
     {
         _inputHandler = inputHandler;
         _stackDao = new StackDao(databaseContext);
+        _manageStacksHelper = new ManageStacksHelper(_stackDao, _inputHandler);
+
         _running = true;
     }
 
@@ -46,8 +50,7 @@ public class AppManageStacks
                 HandleViewStackSelection();
                 break;
             case StackMenuOption.EditStack:
-                //AppNewLogManager _appNewLogManager = new AppNewLogManager(_codingSessionDAO, _inputHandler);
-                //_appNewLogManager.Run();
+                HandleEditStackSelection();
                 break;
             case StackMenuOption.DeleteStack:
                 //AppSessionManager _appSessionManager = new AppSessionManager(_codingSessionDAO, _inputHandler);
@@ -71,36 +74,24 @@ public class AppManageStacks
     private void HandleViewStackSelection()
     {
         AnsiConsole.Clear();
-        IEnumerable<StackDto>? stacks = GetAllStacks();
-        DisplayStacks(stacks);
+        IEnumerable<StackDto>? stacks = _manageStacksHelper.GetAllStacks();
+        _manageStacksHelper.DisplayStacks(stacks);
     }
 
-    private IEnumerable<StackDto>? GetAllStacks()
+    private void HandleEditStackSelection()
     {
-        try
-        {
-            return _stackDao.GetAllStacks();
-        }
-        catch (Exception ex)
-        {
-            Utilities.DisplayExceptionErrorMessage("Error retrieving stacks.", ex.Message);
-            return null;
-        }
-    }
-    private void DisplayStacks(IEnumerable<StackDto>? stacks)
-    {
+        AnsiConsole.Clear();
+        IEnumerable<StackDto>? stacks = _manageStacksHelper.GetAllStacks();
+
         if (stacks == null)
         {
-            AnsiConsole.MarkupLine("[bold]No stacks found.[/]");
+            Utilities.DisplayInformationConsoleMessage("No stacks found.");
             _inputHandler.PauseForContinueInput();
             return;
         }
 
-        foreach (var stack in stacks)
-        {
-            AnsiConsole.MarkupLine($"[bold]{stack.StackName}[/]");
-        }
+        StackDto stack = _inputHandler.PromptForSelectionListStacks(stacks, "Select a stack to edit:");
 
-        _inputHandler.PauseForContinueInput();
+        _manageStacksHelper.HandleEditStack(stack);
     }
 }

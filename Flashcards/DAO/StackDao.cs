@@ -30,4 +30,20 @@ public class StackDao
         }
 
     }
+
+    public void UpdateStackName(StackDto stack)
+    {
+        try
+        {
+            using (var dbConnection = _dbContext.GetConnectionToFlashCards())
+            {
+                string sql = $"UPDATE {ConfigSettings.tbStackName} SET StackName = @NewStackName WHERE StackID = @StackId";
+                dbConnection.Execute(sql, new { NewStackName = stack.StackName, StackId = stack.StackID});
+            }
+        }
+        catch
+        {
+            throw;
+        }
+    }
 }

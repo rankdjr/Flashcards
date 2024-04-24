@@ -62,4 +62,9 @@ internal class Utilities
         AnsiConsole.MarkupLine(successMessage);
         PrintNewLines(1);
     }
+
+    public static string StringTrimLower(string input)
+    {
+        return input.Trim().ToLower();
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using Spectre.Console;
+using Flashcards.DTO;
 
 namespace Flashcards.Services;
 
@@ -32,5 +33,37 @@ public class InputHandler
                     .Select(Utilities.SplitCamelCase)));
 
         return Enum.Parse<TEnum>(selectedOption.Replace(" ", ""));
+    }
+
+    public StackDto PromptForSelectionListStacks(IEnumerable<StackDto> stacks, string promptMessage)
+    {
+        return AnsiConsole.Prompt(
+            new SelectionPrompt<StackDto>()
+                .Title(promptMessage)
+                .PageSize(10)
+                .MoreChoicesText("[grey](Move up and down to see more log entries)[/]")
+                .UseConverter(stack => stack.StackName!)
+                .AddChoices(stacks));
+    }
+
+    public string PromptForNonEmptyString(string promptMessage)
+    {
+        string userInput = AnsiConsole.Prompt(
+            new TextPrompt<string>(promptMessage)
+                .PromptStyle("yellow")
+                .Validate(input =>
+                {
+                    if (!string.IsNullOrWhiteSpace(input))
+                    {
+                        return ValidationResult.Success();
+                    }
+                    else
+                    {
+                        var errorMessage = "[red]Input cannot be empty.[/]";
+                        return ValidationResult.Error(errorMessage);
+                    }
+                }));
+
+        return userInput.Trim();
     }
 }

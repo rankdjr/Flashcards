@@ -18,3 +18,12 @@ public enum StackMenuOption
     DeleteStack,
     CreateStack,
 }
+
+public enum EditStackMenuOption
+{
+    Cancel,
+    EditStackName,
+    AddFlashCard,
+    DeleteFlashCard,
+    EditFlashCard
+}
