@@ -68,6 +68,23 @@ public class ManageStacksHelper
         ExecuteSelectedEditOption(selectedOption, stack);
     }
 
+    public void HandleDeleteStack(StackDto stack)
+    {
+        try
+        {
+            _stackDao.DeleteStack(stack);
+            Utilities.DisplaySuccessMessage("Stack deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            Utilities.DisplayExceptionErrorMessage("Error deleting stack.", ex.Message);
+        }
+        finally
+        {
+            _inputHandler.PauseForContinueInput();
+        }
+    }
+
     private void handleEndEditSelectedOptionAction(StackDto stack)
     {
         Utilities.DisplayInformationConsoleMessage("Returning to Stack Edit screen.");
