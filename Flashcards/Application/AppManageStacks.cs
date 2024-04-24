@@ -55,9 +55,7 @@ public class AppManageStacks
                 HandleEditStackSelection();
                 break;
             case StackMenuOption.DeleteStack:
-                // TODO: Implement delete stack
-                // AppSessionManager _appSessionManager = new AppSessionManager(_codingSessionDAO, _inputHandler);
-                // _appSessionManager.Run();
+                HandleDeleteStackSelection();
                 break;
             case StackMenuOption.CreateStack:
                 // TODO: Implement create stack
@@ -96,5 +94,24 @@ public class AppManageStacks
         StackDto stack = _inputHandler.PromptForSelectionListStacks(stacks, "Select a stack to edit:");
 
         _manageStacksHelper.HandleEditStack(stack);
+    }
+
+    private void HandleDeleteStackSelection()
+    {
+        AnsiConsole.Clear();
+        IEnumerable<StackDto>? stacks = _manageStacksHelper.GetAllStacks();
+
+        if (stacks == null)
+        {
+            _manageStacksHelper.HandleNoStacksFound();
+            return;
+        }
+
+        StackDto stack = _inputHandler.PromptForSelectionListStacks(stacks, "Select a stack to edit:");
+        
+        if (_inputHandler.ConfirmAction($"Are you sure you want to delete the stack '{stack.StackName}'?"))
+        {
+            _manageStacksHelper.HandleDeleteStack(stack);
+        }
     }
 }
