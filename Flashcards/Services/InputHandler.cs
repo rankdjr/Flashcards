@@ -21,4 +21,16 @@ public class InputHandler
 
         return true;
     }
+
+    public TEnum PromptMenuSelection<TEnum>() where TEnum : struct, Enum
+    {
+        string selectedOption = AnsiConsole.Prompt(new SelectionPrompt<string>()
+            .Title(ConfigSettings.menuTitle)
+            .PageSize(ConfigSettings.pageSize)
+            .AddChoices(
+                Enum.GetNames(typeof(TEnum))
+                    .Select(Utilities.SplitCamelCase)));
+
+        return Enum.Parse<TEnum>(selectedOption.Replace(" ", ""));
+    }
 }
