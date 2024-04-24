@@ -1,5 +1,6 @@
 ﻿using Flashcards.Database;
 using Flashcards.Services;
+using Flashcards.Enums;
 using Spectre.Console;
 
 namespace Flashcards.Application;
@@ -23,7 +24,8 @@ internal class App
         _appConfigurationHandler.ConfigureApplication();
 
         // Setup Services
-        _dbSeeder = new DatabaseSeeder(_databaseContext);
+        _dbSeeder = new DatabaseSeeder(_databaseContext, _inputHandler);
+        
     }
 
     public void Run()
@@ -61,8 +63,8 @@ internal class App
                 //_appStopwatchManager.Run();
                 break;
             case MainMenuOption.ManageStacks:
-                //AppNewLogManager _appNewLogManager = new AppNewLogManager(_codingSessionDAO, _inputHandler);
-                //_appNewLogManager.Run();
+                AppManageStacks appManageStacks = new AppManageStacks(_databaseContext, _inputHandler);
+                appManageStacks.Run();
                 break;
             case MainMenuOption.ManageFlashCards:
                 //AppSessionManager _appSessionManager = new AppSessionManager(_codingSessionDAO, _inputHandler);

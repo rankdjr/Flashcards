@@ -10,6 +10,14 @@ internal class Utilities
         for (int i = 0; i < numOfNewLines; i++) { Console.WriteLine(); }
     }
 
+    public static void DisplayPageHeader(string header)
+    {
+        PrintNewLines(1);
+        string headerMessage = $"[bold][mediumpurple2]{header}[/][/]";
+        AnsiConsole.MarkupLine(headerMessage);
+        PrintNewLines(1);
+    }
+
     public static void DisplayExceptionErrorMessage(string message, string exception)
     {
         PrintNewLines(1);
