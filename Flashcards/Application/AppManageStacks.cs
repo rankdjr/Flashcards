@@ -54,13 +54,13 @@ public class AppManageStacks
                 break;
             case StackMenuOption.DeleteStack:
                 // TODO: Implement delete stack
-                //AppSessionManager _appSessionManager = new AppSessionManager(_codingSessionDAO, _inputHandler);
-                //_appSessionManager.Run();
+                // AppSessionManager _appSessionManager = new AppSessionManager(_codingSessionDAO, _inputHandler);
+                // _appSessionManager.Run();
                 break;
             case StackMenuOption.CreateStack:
                 // TODO: Implement create stack
-                //AppGoalManager _appGoalManager = new AppGoalManager(_codingGoalDAO, _inputHandler);
-                //_appGoalManager.Run();
+                // AppGoalManager _appGoalManager = new AppGoalManager(_codingGoalDAO, _inputHandler);
+                // _appGoalManager.Run();
                 break;
             case StackMenuOption.Return:
                 CloseSession();

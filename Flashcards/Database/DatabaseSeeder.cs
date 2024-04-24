@@ -19,18 +19,22 @@ public class DatabaseSeeder
 
     public void SeedDatabase()
     {
+        var stackNameSOLID = "SOLID";
+        var stackNameDesignPatterns = "DesignPatterns";
+        var stackNameProgrammingBasics = "ProgrammingBasics";
+
         var stacks = new List<Stack>
         {
-            new Stack("SOLID"),
-            new Stack("DesignPatterns"),
-            new Stack("ProgrammingBasics")
+            new Stack(stackNameSOLID),
+            new Stack(stackNameDesignPatterns),
+            new Stack(stackNameProgrammingBasics)
         };
 
         // Flashcards for each stack are created with StackID's of 0, which will be updated to the correct ID when inserted into the database
         var flashCards = new Dictionary<string, List<FlashCard>>
         {
             {
-                "SOLID", new List<FlashCard>
+                stackNameSOLID, new List<FlashCard>
                 {
                     new FlashCard("What does the S in SOLID stand for?", "Single Responsibility Principle", 0),
                     new FlashCard("What does the O in SOLID stand for?", "Open/Closed Principle", 0),
@@ -40,7 +44,7 @@ public class DatabaseSeeder
                 }
             },
             {
-                "DesignPatterns", new List<FlashCard>
+                stackNameDesignPatterns, new List<FlashCard>
                 {
                     new FlashCard("Which design pattern provides a way to access the elements of an aggregate object sequentially without exposing its underlying representation?", "Iterator Pattern", 0),
                     new FlashCard("What pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable?", "Strategy Pattern", 0),
@@ -50,7 +54,7 @@ public class DatabaseSeeder
                 }
             },
             {
-                "ProgrammingBasics", new List<FlashCard>
+               stackNameProgrammingBasics, new List<FlashCard>
                 {
                     new FlashCard("What is the keyword used to define a variable in Python?", "var", 0),
                     new FlashCard("What does '&&' signify in most programming languages?", "Logical AND", 0),
@@ -66,6 +70,8 @@ public class DatabaseSeeder
 
     private void InsertSeedData(List<Stack> stacks, Dictionary<string, List<FlashCard>> flashCards)
     {
+        // TODO: Check if data already exists in the database before seeding
+        // TODO: Seed data for Sessions when implemented
         AnsiConsole.WriteLine("Starting database seeding...");
 
         try

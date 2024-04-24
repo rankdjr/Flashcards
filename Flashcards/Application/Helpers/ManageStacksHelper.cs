@@ -64,13 +64,13 @@ public class ManageStacksHelper
                 break;
             case EditStackMenuOption.AddFlashCard:
                 // TODO: Implement add flash card
-                //AppNewLogManager _appNewLogManager = new AppNewLogManager(_codingSessionDAO, _inputHandler);
-                //_appNewLogManager.Run();
+                // AppNewLogManager _appNewLogManager = new AppNewLogManager(_codingSessionDAO, _inputHandler);
+                // _appNewLogManager.Run();
                 break;
             case EditStackMenuOption.DeleteFlashCard:
                 // TODO: Implement delete flash card
-                //AppSessionManager _appSessionManager = new AppSessionManager(_codingSessionDAO, _inputHandler);
-                //_appSessionManager.Run();
+                // AppSessionManager _appSessionManager = new AppSessionManager(_codingSessionDAO, _inputHandler);
+                // _appSessionManager.Run();
                 break;
             case EditStackMenuOption.Cancel:
                 return;
