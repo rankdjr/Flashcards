@@ -66,4 +66,22 @@ public class InputHandler
 
         return userInput.Trim();
     }
+
+    public FlashCardDto PromptListSelectionFlashCard(IEnumerable<FlashCardDto> flashcards, string promptMessage)
+    {
+        FlashCardDto cancelOption = new FlashCardDto { CardID = 0, Front = "", Back = "" };
+        var updatedSelectionSet = flashcards.Append(cancelOption);  // Add a cancel option
+
+        return AnsiConsole.Prompt(
+            new SelectionPrompt<FlashCardDto>()
+                .Title(promptMessage)
+                .PageSize(10)
+                .MoreChoicesText("[grey](Move up and down to see more log entries)[/]")
+                .UseConverter(entry =>
+                    entry.CardID == 0 ? "[red](Cancel this operation)[/]\n" :
+                    $"[bold yellow]ID:[/] {entry.CardID}\n" +
+                    $"    [bold cyan]Front:[/] {entry.Front}\n" +
+                    $"    [bold magenta]Back:[/] {entry.Back}\n")
+                .AddChoices(updatedSelectionSet));
+    }
 }
