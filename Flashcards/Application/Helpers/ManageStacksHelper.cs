@@ -1,6 +1,7 @@
 ﻿using Flashcards.DTO;
 using Flashcards.DAO;
 using Flashcards.Services;
+using Flashcards.Models;
 using Spectre.Console;
 using Flashcards.Enums;
 
@@ -9,11 +10,13 @@ namespace Flashcards.Application.Helpers;
 public class ManageStacksHelper
 {
     private readonly StackDao _stackDao;
+    private readonly FlashCardDao _flashCardDao;
     private readonly InputHandler _inputHandler;
 
-    public ManageStacksHelper(StackDao stackDao, InputHandler inputHandler)
+    public ManageStacksHelper(StackDao stackDao, FlashCardDao flashCardDao, InputHandler inputHandler)
     {
         _stackDao = stackDao;
+        _flashCardDao = flashCardDao;
         _inputHandler = inputHandler;
     }
 
@@ -32,11 +35,9 @@ public class ManageStacksHelper
 
     public void DisplayStacks(IEnumerable<StackDto>? stacks)
     {
-        // TODO: This code is repeated, consider refactoring See AppManageFlashCards.cs Line 88
         if (stacks == null)
         {
-            AnsiConsole.MarkupLine("[bold]No stacks found.[/]");
-            _inputHandler.PauseForContinueInput();
+            HandleNoStacksFound();
             return;
         }
 
@@ -48,11 +49,30 @@ public class ManageStacksHelper
         _inputHandler.PauseForContinueInput();
     }
 
+    public void HandleNoStacksFound()
+    {
+        Utilities.DisplayInformationConsoleMessage("[bold]No stacks found.[/]");
+        _inputHandler.PauseForContinueInput();
+    }
+
+    public void HandleStackUpdatedSuccessfully()
+    {
+        Utilities.DisplaySuccessMessage("Stack updated successfully.");
+        _inputHandler.PauseForContinueInput();
+    }
+
     public void HandleEditStack(StackDto stack)
     {
         AnsiConsole.Clear();
         EditStackMenuOption selectedOption = _inputHandler.PromptMenuSelection<EditStackMenuOption>();
         ExecuteSelectedEditOption(selectedOption, stack);
+    }
+
+    private void handleEndEditSelectedOptionAction(StackDto stack)
+    {
+        Utilities.DisplayInformationConsoleMessage("Returning to Stack Edit screen.");
+        _inputHandler.PauseForContinueInput();
+        HandleEditStack(stack);
     }
 
     private void ExecuteSelectedEditOption(EditStackMenuOption option, StackDto stack)
@@ -63,14 +83,13 @@ public class ManageStacksHelper
                 EditStackName(stack);
                 break;
             case EditStackMenuOption.AddFlashCard:
-                // TODO: Implement add flash card
-                // AppNewLogManager _appNewLogManager = new AppNewLogManager(_codingSessionDAO, _inputHandler);
-                // _appNewLogManager.Run();
+                EditStackAddFlashCard(stack);
                 break;
             case EditStackMenuOption.DeleteFlashCard:
-                // TODO: Implement delete flash card
-                // AppSessionManager _appSessionManager = new AppSessionManager(_codingSessionDAO, _inputHandler);
-                // _appSessionManager.Run();
+                EditStackDeleteFlashCard(stack);
+                break;
+            case EditStackMenuOption.EditFlashCard:
+                // TODO: Implement edit flash card
                 break;
             case EditStackMenuOption.Cancel:
                 return;
@@ -97,12 +116,93 @@ public class ManageStacksHelper
         {
             _stackDao.UpdateStackName(stack);
             Utilities.DisplaySuccessMessage("Stack updated successfully.");
+            
         }
         catch (Exception ex)
         {
             Utilities.DisplayExceptionErrorMessage("Error updating stack.", ex.Message);
         }
+        finally
+        {
+            handleEndEditSelectedOptionAction(stack);
+        }
+    }
 
-        _inputHandler.PauseForContinueInput();
+    private void EditStackAddFlashCard(StackDto stack)
+    {
+        string flashCardFront = _inputHandler.PromptForNonEmptyString("Enter the front of the flash card:    ");
+        string flashCardBack = _inputHandler.PromptForNonEmptyString("Enter the back of the flash card:    ");
+        FlashCardDto flashCardDto = new FlashCardDto { Front = flashCardFront, Back = flashCardBack };
+
+        try
+        {
+            _flashCardDao.InsertNewFlashCard(flashCardDto, stack);
+            Utilities.DisplaySuccessMessage("Flash card added successfully.");
+        }
+        catch (Exception ex)
+        {
+            Utilities.DisplayExceptionErrorMessage("Error adding flash card.", ex.Message);
+        }
+        finally
+        {
+            handleEndEditSelectedOptionAction(stack);
+        }
+    }
+
+    private void EditStackDeleteFlashCard(StackDto stack)
+    {
+        
+        IEnumerable<FlashCardDto>? flashCards = GetFlashCardsByStack(stack);
+
+        if (flashCards == null)
+        {
+            Utilities.DisplayInformationConsoleMessage("No flash cards found.");
+            _inputHandler.PauseForContinueInput();
+            return;
+        }
+
+        FlashCardDto flashCard = _inputHandler.PromptListSelectionFlashCard(flashCards, "Select a flash card to delete:");
+
+        if (flashCard.CardID == 0)
+        {
+            Utilities.DisplayInformationConsoleMessage("No flash card selected.");
+            _inputHandler.PauseForContinueInput();
+            return;
+        }
+
+        try
+        {
+            bool result = _flashCardDao.DeleteFlashCard(flashCard);
+            if (result)
+            {
+                Utilities.DisplaySuccessMessage("Flash card deleted successfully.");
+            }
+            else
+            {
+                Utilities.DisplayWarningMessage("Flash card not deleted.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Utilities.DisplayExceptionErrorMessage("Error deleting flash card.", ex.Message);
+        }
+        finally
+        {
+            handleEndEditSelectedOptionAction(stack);
+        }
+    }
+
+    private IEnumerable<FlashCardDto>? GetFlashCardsByStack(StackDto stack)
+    {
+        try
+        {
+            var flashCards = _flashCardDao.GetAllFlashCardsByStackId(stack);
+            return flashCards;
+        }
+        catch (Exception ex)
+        {
+            Utilities.DisplayExceptionErrorMessage("Error retrieving flash cards.", ex.Message);
+            return null;
+        }
     }
 }
