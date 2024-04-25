@@ -85,7 +85,7 @@ public class ManageStacksHelper
         }
     }
 
-    private void handleEndEditSelectedOptionAction(StackDto stack)
+    private void HandleEndEditSelectedOptionAction(StackDto stack)
     {
         Utilities.DisplayInformationConsoleMessage("Returning to Stack Edit screen.");
         _inputHandler.PauseForContinueInput();
@@ -141,7 +141,7 @@ public class ManageStacksHelper
         }
         finally
         {
-            handleEndEditSelectedOptionAction(stack);
+            HandleEndEditSelectedOptionAction(stack);
         }
     }
 
@@ -162,7 +162,7 @@ public class ManageStacksHelper
         }
         finally
         {
-            handleEndEditSelectedOptionAction(stack);
+            HandleEndEditSelectedOptionAction(stack);
         }
     }
 
@@ -205,7 +205,7 @@ public class ManageStacksHelper
         }
         finally
         {
-            handleEndEditSelectedOptionAction(stack);
+            HandleEndEditSelectedOptionAction(stack);
         }
     }
 
@@ -253,21 +253,25 @@ public class ManageStacksHelper
         if (!selectedProperties.Any())
         {
             Utilities.DisplayCancellationMessage("Operation cancelled.");
-            handleEndEditSelectedOptionAction(stack);
+            HandleEndEditSelectedOptionAction(stack);
         }
 
-        if (selectedProperties.Contains(EditablePropertyFlashCard.Front))
+        foreach (var property in selectedProperties)
         {
-            string newFront = _inputHandler.PromptForNonEmptyString("Enter a new front for the flash card:    ");
-            flashCard.Front = newFront;
+            switch (property)
+            {
+                case EditablePropertyFlashCard.Front:
+                    string newFront = _inputHandler.PromptForNonEmptyString("Enter a new front for the flash card:    ");
+                    flashCard.Front = newFront;
+                    break;
+
+                case EditablePropertyFlashCard.Back:
+                    string newBack = _inputHandler.PromptForNonEmptyString("Enter a new back for the flash card:    ");
+                    flashCard.Back = newBack;
+                    break;
+            }
         }
 
-        if (selectedProperties.Contains(EditablePropertyFlashCard.Back))
-        {
-            string newBack = _inputHandler.PromptForNonEmptyString("Enter a new back for the flash card:    ");
-            flashCard.Back = newBack;
-        }   
-        
         try
         {
             _flashCardDao.UpdateFlashCard(flashCard);
@@ -279,7 +283,7 @@ public class ManageStacksHelper
         }
         finally
         {
-            handleEndEditSelectedOptionAction(stack);
+            HandleEndEditSelectedOptionAction(stack);
         }
     }
 }
