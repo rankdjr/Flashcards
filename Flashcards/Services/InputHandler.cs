@@ -1,5 +1,6 @@
 ﻿using Spectre.Console;
 using Flashcards.DTO;
+using Flashcards.Enums;
 
 namespace Flashcards.Services;
 
@@ -83,5 +84,16 @@ public class InputHandler
                     $"    [bold cyan]Front:[/] {entry.Front}\n" +
                     $"    [bold magenta]Back:[/] {entry.Back}\n")
                 .AddChoices(updatedSelectionSet));
+    }
+
+    public IEnumerable<EditablePropertyFlashCard> PromptForEditFlashCardPropertiesSelection()
+    {
+        return AnsiConsole.Prompt(
+            new MultiSelectionPrompt<EditablePropertyFlashCard>()
+                .Title("Select properties you want to edit:")
+                .NotRequired()
+                .PageSize(10)
+                .InstructionsText("[grey](Press [blue]<space>[/] to toggle a property, [green]<enter>[/] to accept, [yellow]<enter>[/] with no selections will cancel update)[/]")
+                .AddChoices(Enum.GetValues<EditablePropertyFlashCard>()));
     }
 }

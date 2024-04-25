@@ -71,4 +71,22 @@ public class FlashCardDao
             throw;
         }
     }
+
+    public bool UpdateFlashCard(FlashCardDto flashCard)
+    {
+        try
+        {
+            using (var dbConnection = _dbContext.GetConnectionToFlashCards())
+            {
+                string sql = $"UPDATE {ConfigSettings.tbFlashCardsName} SET Front = @Front, Back = @Back WHERE CardID = @CardID";
+                int rowsAffected = dbConnection.Execute(sql, new { flashCard.Front, flashCard.Back, flashCard.CardID });
+
+                return rowsAffected > 0;
+            }
+        }
+        catch
+        {
+            throw;
+        }
+    }   
 }

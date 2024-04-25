@@ -106,7 +106,7 @@ public class ManageStacksHelper
                 EditStackDeleteFlashCard(stack);
                 break;
             case EditStackMenuOption.EditFlashCard:
-                // TODO: Implement edit flash card
+                ProcessEditFlashCardActions(stack);
                 break;
             case EditStackMenuOption.Cancel:
                 return;
@@ -220,6 +220,66 @@ public class ManageStacksHelper
         {
             Utilities.DisplayExceptionErrorMessage("Error retrieving flash cards.", ex.Message);
             return null;
+        }
+    }
+
+    private void ProcessEditFlashCardActions(StackDto stack)
+    {
+        IEnumerable<FlashCardDto>? flashCards = GetFlashCardsByStack(stack);
+
+        if (flashCards == null)
+        {
+            Utilities.DisplayInformationConsoleMessage("No flash cards found.");
+            _inputHandler.PauseForContinueInput();
+            return;
+        }
+
+        FlashCardDto flashCard = _inputHandler.PromptListSelectionFlashCard(flashCards, "Select a flash card to delete:");
+
+        if (flashCard.CardID == 0)
+        {
+            Utilities.DisplayInformationConsoleMessage("No flash card selected.");
+            _inputHandler.PauseForContinueInput();
+            return;
+        }
+
+        UpdateFlashCardSelectedProperties(stack, flashCard);
+    }
+
+    private void UpdateFlashCardSelectedProperties(StackDto stack, FlashCardDto flashCard)
+    {
+        IEnumerable<EditablePropertyFlashCard> selectedProperties = _inputHandler.PromptForEditFlashCardPropertiesSelection();
+
+        if (!selectedProperties.Any())
+        {
+            Utilities.DisplayCancellationMessage("Operation cancelled.");
+            handleEndEditSelectedOptionAction(stack);
+        }
+
+        if (selectedProperties.Contains(EditablePropertyFlashCard.Front))
+        {
+            string newFront = _inputHandler.PromptForNonEmptyString("Enter a new front for the flash card:    ");
+            flashCard.Front = newFront;
+        }
+
+        if (selectedProperties.Contains(EditablePropertyFlashCard.Back))
+        {
+            string newBack = _inputHandler.PromptForNonEmptyString("Enter a new back for the flash card:    ");
+            flashCard.Back = newBack;
+        }   
+        
+        try
+        {
+            _flashCardDao.UpdateFlashCard(flashCard);
+            Utilities.DisplaySuccessMessage("Flash card updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            Utilities.DisplayExceptionErrorMessage("Error updating flash card.", ex.Message);
+        }
+        finally
+        {
+            handleEndEditSelectedOptionAction(stack);
         }
     }
 }
