@@ -62,4 +62,20 @@ public class StackDao
             throw;
         }
     }
+
+    public void CreateStack(StackDto stack)
+    {
+        try
+        {
+            using (var dbConnection = _dbContext.GetConnectionToFlashCards())
+            {
+                string sql = $"INSERT INTO {ConfigSettings.tbStackName} (StackName) VALUES (@StackName)";
+                dbConnection.Execute(sql, new { StackName = stack.StackName });
+            }
+        }
+        catch
+        {
+            throw;
+        }
+    }
 }

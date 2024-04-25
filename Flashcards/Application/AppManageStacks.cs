@@ -58,9 +58,7 @@ public class AppManageStacks
                 HandleDeleteStackSelection();
                 break;
             case StackMenuOption.CreateStack:
-                // TODO: Implement create stack
-                // AppGoalManager _appGoalManager = new AppGoalManager(_codingGoalDAO, _inputHandler);
-                // _appGoalManager.Run();
+                HandleCreateStackSelection();
                 break;
             case StackMenuOption.Return:
                 CloseSession();
@@ -112,6 +110,23 @@ public class AppManageStacks
         if (_inputHandler.ConfirmAction($"Are you sure you want to delete the stack '{stack.StackName}'?"))
         {
             _manageStacksHelper.HandleDeleteStack(stack);
+        }
+    }
+
+    private void HandleCreateStackSelection()
+    {
+        AnsiConsole.Clear();
+        string stackName = _inputHandler.PromptForNonEmptyString("Enter the name of the stack:");
+        StackDto stack = new StackDto { StackName = stackName };
+
+        try
+        {             
+            _stackDao.CreateStack(stack);
+            Utilities.DisplaySuccessMessage("Stack created successfully.");
+        }
+        catch (Exception ex)
+        {
+            Utilities.DisplayExceptionErrorMessage("Error creating stack.", ex.Message);
         }
     }
 }
