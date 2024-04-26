@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using Flashcards.DTO;
+using Spectre.Console;
 using System.Text.RegularExpressions;
 
 namespace Flashcards.Services;
@@ -66,5 +67,13 @@ internal class Utilities
     public static string StringTrimLower(string input)
     {
         return input.Trim().ToLower();
+    }
+
+    public static void DisplayFlashCardFront(FlashCardDto flashCard)
+    {
+        PrintNewLines(1);
+        string flashCardFront = $"[bold cyan]Front:[/] {flashCard.Front}";
+        AnsiConsole.MarkupLine(flashCardFront);
+        PrintNewLines(1);
     }
 }

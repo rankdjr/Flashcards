@@ -34,3 +34,10 @@ public enum FlashCardMenuOption
     EditFlashCard,
     DeleteFlashCard
 }
+
+public enum StudySessionMenuOption
+{
+    Cancel,
+    StartNewStudySession,
+    ViewPreviousStudySessions
+}

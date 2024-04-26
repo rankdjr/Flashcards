@@ -59,8 +59,8 @@ internal class App
         switch (option)
         {
             case MainMenuOption.StartStudySession:
-                // AppStopwatchManager _appStopwatchManager = new AppStopwatchManager(_codingSessionDAO, _inputHandler);
-                // _appStopwatchManager.Run();
+                AppStudySession appStudySession = new AppStudySession(_databaseContext, _inputHandler);
+                appStudySession.Run();
                 break;
             case MainMenuOption.ManageStacks:
                 AppManageStacks appManageStacks = new AppManageStacks(_databaseContext, _inputHandler);
