@@ -59,20 +59,20 @@ internal class App
         switch (option)
         {
             case MainMenuOption.StartStudySession:
-                //AppStopwatchManager _appStopwatchManager = new AppStopwatchManager(_codingSessionDAO, _inputHandler);
-                //_appStopwatchManager.Run();
+                // AppStopwatchManager _appStopwatchManager = new AppStopwatchManager(_codingSessionDAO, _inputHandler);
+                // _appStopwatchManager.Run();
                 break;
             case MainMenuOption.ManageStacks:
                 AppManageStacks appManageStacks = new AppManageStacks(_databaseContext, _inputHandler);
                 appManageStacks.Run();
                 break;
             case MainMenuOption.ManageFlashCards:
-                //AppSessionManager _appSessionManager = new AppSessionManager(_codingSessionDAO, _inputHandler);
-                //_appSessionManager.Run();
+                AppManageFlashCards appManageFlashCards = new AppManageFlashCards(_databaseContext, _inputHandler);
+                appManageFlashCards.Run();
                 break;
             case MainMenuOption.ViewStudySessionData:
-                //AppGoalManager _appGoalManager = new AppGoalManager(_codingGoalDAO, _inputHandler);
-                //_appGoalManager.Run();
+                // AppGoalManager _appGoalManager = new AppGoalManager(_codingGoalDAO, _inputHandler);
+                // _appGoalManager.Run();
                 break;
             case MainMenuOption.SeedDatabase:
                 _dbSeeder.SeedDatabase();

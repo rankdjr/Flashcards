@@ -27,3 +27,10 @@ public enum EditStackMenuOption
     DeleteFlashCard,
     EditFlashCard
 }
+
+public enum FlashCardMenuOption
+{
+    Cancel,
+    EditFlashCard,
+    DeleteFlashCard
+}

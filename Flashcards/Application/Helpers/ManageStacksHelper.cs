@@ -9,6 +9,8 @@ namespace Flashcards.Application.Helpers;
 
 public class ManageStacksHelper
 {
+    //TODO: THIS IS A VERY LARGE CLASS. CONSIDER REFACTORING INTO SMALLER CLASSES.
+
     private readonly StackDao _stackDao;
     private readonly FlashCardDao _flashCardDao;
     private readonly InputHandler _inputHandler;
@@ -52,6 +54,12 @@ public class ManageStacksHelper
     public void HandleNoStacksFound()
     {
         Utilities.DisplayInformationConsoleMessage("[bold]No stacks found.[/]");
+        _inputHandler.PauseForContinueInput();
+    }
+
+    public void HandleNoFlashCardsFound()
+    {
+        Utilities.DisplayInformationConsoleMessage("[bold]No flashcards found.[/]");
         _inputHandler.PauseForContinueInput();
     }
 
@@ -229,12 +237,11 @@ public class ManageStacksHelper
 
         if (flashCards == null)
         {
-            Utilities.DisplayInformationConsoleMessage("No flash cards found.");
-            _inputHandler.PauseForContinueInput();
+            HandleNoFlashCardsFound();
             return;
         }
 
-        FlashCardDto flashCard = _inputHandler.PromptListSelectionFlashCard(flashCards, "Select a flash card to delete:");
+        FlashCardDto flashCard = _inputHandler.PromptListSelectionFlashCard(flashCards, "Select a flash card to edit:");
 
         if (flashCard.CardID == 0)
         {

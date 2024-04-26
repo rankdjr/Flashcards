@@ -88,5 +88,21 @@ public class FlashCardDao
         {
             throw;
         }
+    }
+
+    public IEnumerable<FlashCardDto> GetAllFlashCards()
+    {
+        try
+        {
+            using (var dbConnection = _dbContext.GetConnectionToFlashCards())
+            {
+                string sql = $"SELECT CardID, Front, Back FROM {ConfigSettings.tbFlashCardsName}";
+                return dbConnection.Query<FlashCardDto>(sql);
+            }
+        }
+        catch
+        {
+            throw;
+        }
     }   
 }
