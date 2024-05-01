@@ -96,4 +96,24 @@ public class InputHandler
                 .InstructionsText("[grey](Press [blue]<space>[/] to toggle a property, [green]<enter>[/] to accept, [yellow]<enter>[/] with no selections will cancel update)[/]")
                 .AddChoices(Enum.GetValues<EditablePropertyFlashCard>()));
     }
+
+    public int PromptForPositiveInteger(string promptMessage)
+    {
+        return AnsiConsole.Prompt(
+            new TextPrompt<int>(promptMessage)
+                .Validate(input =>
+                {
+                    if (!int.TryParse(input.ToString().Trim(), out int parsedQuantity))
+                    {
+                        return ValidationResult.Error("[red]Please enter a valid integer number.[/]");
+                    }
+
+                    if (parsedQuantity <= 0)
+                    {
+                        return ValidationResult.Error("[red]Please enter a positive number.[/]");
+                    }
+
+                    return ValidationResult.Success();
+                }));
+    }
 }

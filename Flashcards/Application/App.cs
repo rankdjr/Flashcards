@@ -71,8 +71,8 @@ internal class App
                 appManageFlashCards.Run();
                 break;
             case MainMenuOption.ViewStudySessionData:
-                // AppGoalManager _appGoalManager = new AppGoalManager(_codingGoalDAO, _inputHandler);
-                // _appGoalManager.Run();
+                AppStudySessionReport appStudySessionReport = new AppStudySessionReport(_databaseContext, _inputHandler);
+                appStudySessionReport.Run();
                 break;
             case MainMenuOption.SeedDatabase:
                 _dbSeeder.SeedDatabase();

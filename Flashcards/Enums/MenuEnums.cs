@@ -38,6 +38,12 @@ public enum FlashCardMenuOption
 public enum StudySessionMenuOption
 {
     Cancel,
-    StartNewStudySession,
-    ViewPreviousStudySessions
+    StartNewStudySession
+}
+
+public enum ViewStudySessionDataMenuOption
+{
+    Cancel,
+    ViewNumberOfSessionsReport,
+    ViewAverageScoreReport
 }
