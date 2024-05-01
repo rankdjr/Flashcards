@@ -54,7 +54,6 @@ public class DatabaseUtility
                     var sql = "SELECT COUNT(*) FROM sys.tables WHERE name = @TableName";
                     int result = connection.ExecuteScalar<int>(sql, new { TableName = tableName });
 
-                    // If any table does not exist, return false
                     if (result == 0)
                     {
                         return false;
@@ -88,7 +87,6 @@ public class DatabaseUtility
                     var sql = "SELECT COUNT(*) FROM sys.views WHERE name = @ViewName";
                     int result = connection.ExecuteScalar<int>(sql, new { ViewName = viewName });
 
-                    // If any view does not exist, return false
                     if (result == 0)
                     {
                         return false;

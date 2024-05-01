@@ -70,8 +70,6 @@ public class DatabaseSeeder
 
     private void InsertSeedData(List<Stack> stacks, Dictionary<string, List<FlashCard>> flashCards)
     {
-        // TODO: Check if data already exists in the database before seeding
-        // TODO: Seed data for Sessions when implemented
         AnsiConsole.WriteLine("Starting database seeding...");
 
         try

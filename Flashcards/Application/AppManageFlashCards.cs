@@ -3,7 +3,6 @@ using Flashcards.DAO;
 using Flashcards.Database;
 using Flashcards.DTO;
 using Flashcards.Enums;
-using Flashcards.Models;
 using Flashcards.Services;
 using Spectre.Console;
 
@@ -68,9 +67,6 @@ public class AppManageFlashCards
 
     private void HandleDeleteFlashCardSelection()
     {
-        
-        // TODO: Refactor all of this, it is crazy bad to have this much logic in a single method
-
         IEnumerable<FlashCardDto>? flashCards;
 
         try 
@@ -122,8 +118,6 @@ public class AppManageFlashCards
 
     private void HandleEditFlashCardSelection()
     {
-        // TODO: Refactor all of this, it is crazy bad to have this much logic in a single method
-
         IEnumerable<FlashCardDto>? flashCards;
 
         try

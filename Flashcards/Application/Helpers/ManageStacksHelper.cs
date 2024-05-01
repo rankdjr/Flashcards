@@ -1,7 +1,6 @@
 ﻿using Flashcards.DTO;
 using Flashcards.DAO;
 using Flashcards.Services;
-using Flashcards.Models;
 using Spectre.Console;
 using Flashcards.Enums;
 
@@ -9,8 +8,6 @@ namespace Flashcards.Application.Helpers;
 
 public class ManageStacksHelper
 {
-    //TODO: THIS IS A VERY LARGE CLASS. CONSIDER REFACTORING INTO SMALLER CLASSES.
-
     private readonly StackDao _stackDao;
     private readonly FlashCardDao _flashCardDao;
     private readonly InputHandler _inputHandler;

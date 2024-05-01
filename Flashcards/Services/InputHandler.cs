@@ -71,7 +71,7 @@ public class InputHandler
     public FlashCardDto PromptListSelectionFlashCard(IEnumerable<FlashCardDto> flashcards, string promptMessage)
     {
         FlashCardDto cancelOption = new FlashCardDto { CardID = 0, Front = "", Back = "" };
-        var updatedSelectionSet = flashcards.Append(cancelOption);  // Add a cancel option
+        var updatedSelectionSet = flashcards.Append(cancelOption); 
 
         return AnsiConsole.Prompt(
             new SelectionPrompt<FlashCardDto>()
