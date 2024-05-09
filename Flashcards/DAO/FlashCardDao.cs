@@ -28,7 +28,7 @@ public class FlashCardDao
 
             using (var dbConnection = _dbContext.GetConnectionToFlashCards())
             {
-                string sql = $"INSERT INTO {ConfigSettings.tbFlashCardsName} (StackID, Front, Back) VALUES (@StackID, @Front, @Back)";
+                string sql = $"INSERT INTO {ConfigSettings.TableNameFlashCards} (StackID, Front, Back) VALUES (@StackID, @Front, @Back)";
                 dbConnection.Execute(sql, new { flashCard.StackID, flashCard.Front, flashCard.Back });
             }
         }
@@ -44,7 +44,7 @@ public class FlashCardDao
         {
             using (var dbConnection = _dbContext.GetConnectionToFlashCards())
             {
-                string sql = $"SELECT CardID, Front, Back FROM {ConfigSettings.tbFlashCardsName} WHERE StackID = @StackID";
+                string sql = $"SELECT CardID, Front, Back FROM {ConfigSettings.TableNameFlashCards} WHERE StackID = @StackID";
                 return dbConnection.Query<FlashCardDto>(sql, new { stack.StackID });
             }
         }
@@ -60,7 +60,7 @@ public class FlashCardDao
         {
             using (var dbConnection = _dbContext.GetConnectionToFlashCards())
             {
-                string sql = $"DELETE FROM {ConfigSettings.tbFlashCardsName} WHERE CardID = @CardID";
+                string sql = $"DELETE FROM {ConfigSettings.TableNameFlashCards} WHERE CardID = @CardID";
                 int rowsAffected = dbConnection.Execute(sql, new { flashCard.CardID });
 
                 return rowsAffected > 0;
@@ -78,7 +78,7 @@ public class FlashCardDao
         {
             using (var dbConnection = _dbContext.GetConnectionToFlashCards())
             {
-                string sql = $"UPDATE {ConfigSettings.tbFlashCardsName} SET Front = @Front, Back = @Back WHERE CardID = @CardID";
+                string sql = $"UPDATE {ConfigSettings.TableNameFlashCards} SET Front = @Front, Back = @Back WHERE CardID = @CardID";
                 int rowsAffected = dbConnection.Execute(sql, new { flashCard.Front, flashCard.Back, flashCard.CardID });
 
                 return rowsAffected > 0;
@@ -96,7 +96,7 @@ public class FlashCardDao
         {
             using (var dbConnection = _dbContext.GetConnectionToFlashCards())
             {
-                string sql = $"SELECT CardID, Front, Back FROM {ConfigSettings.tbFlashCardsName}";
+                string sql = $"SELECT CardID, Front, Back FROM {ConfigSettings.TableNameFlashCards}";
                 return dbConnection.Query<FlashCardDto>(sql);
             }
         }

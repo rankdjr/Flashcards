@@ -22,7 +22,7 @@ public class StudySessionDao
         {
             using (var dbConnection = _dbContext.GetConnectionToFlashCards())
             {
-                string sql = $"INSERT INTO {ConfigSettings.tbStudySessionsName} (StackID, SessionDate, Score) VALUES (@StackID, @SessionDate, @Score)";
+                string sql = $"INSERT INTO {ConfigSettings.TableNameStudySessions} (StackID, SessionDate, Score) VALUES (@StackID, @SessionDate, @Score)";
                 dbConnection.Execute(sql, new { studySession.StackID, studySession.SessionDate, studySession.Score });
             }
         }
@@ -38,7 +38,7 @@ public class StudySessionDao
         {
             using (var dbConnection = _dbContext.GetConnectionToFlashCards())
             {
-                string sql = $"DELETE FROM {ConfigSettings.tbStudySessionsName} WHERE SessionID = @SessionID";
+                string sql = $"DELETE FROM {ConfigSettings.TableNameStudySessions} WHERE SessionID = @SessionID";
                 dbConnection.Execute(sql, new { studySession.SessionID });
                 return true;
             }
