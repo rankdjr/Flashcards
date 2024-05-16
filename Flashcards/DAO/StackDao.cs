@@ -14,7 +14,7 @@ public class StackDao
         _dbContext = dbContext;
     }
 
-    public IEnumerable<StackDto> GetAllStacks()
+    public IEnumerable<StackDto>? GetAllStacks()
     {
         try
         {
@@ -24,9 +24,10 @@ public class StackDao
                 return dbConnection.Query<StackDto>(sql);
             }
         }
-        catch
+        catch (Exception ex)
         {
-            throw;
+            Utilities.DisplayExceptionErrorMessage("Unable to retrieve stacks.", ex.Message);
+            return null;
         }
 
     }
@@ -41,8 +42,9 @@ public class StackDao
                 dbConnection.Execute(sql, new { NewStackName = stack.StackName, StackId = stack.StackID});
             }
         }
-        catch
+        catch (Exception ex)
         {
+            Utilities.DisplayExceptionErrorMessage("Unable to update stack name.", ex.Message);
             throw;
         }
     }
@@ -57,8 +59,9 @@ public class StackDao
                 dbConnection.Execute(sql, new { StackId = stack.StackID });
             }
         }
-        catch
+        catch (Exception ex)
         {
+            Utilities.DisplayExceptionErrorMessage("Unable to delete stack.", ex.Message);
             throw;
         }
     }
@@ -73,8 +76,9 @@ public class StackDao
                 dbConnection.Execute(sql, new { StackName = stack.StackName });
             }
         }
-        catch
+        catch (Exception ex)
         {
+            Utilities.DisplayExceptionErrorMessage("Unable to create stack.", ex.Message);
             throw;
         }
     }
